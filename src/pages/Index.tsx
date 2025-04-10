@@ -16,7 +16,7 @@ const Index = () => {
     <div className="flex flex-col min-h-screen">
       <Header />
       <main className="flex-grow">
-        <HeroCarousel />
+        <HeroCarousel movies={nowShowing} />
         
         <div className="container mx-auto px-4 mt-8 mb-4">
           <Link to="/book-now">

@@ -282,14 +282,14 @@ const BookNowPage = () => {
                               <Separator className="mb-4" />
                               
                               <div>
-                                {showtimes.reduce<Record<string, TheaterShowtime[]>>((acc, showtime) => {
+                                {Object.entries(showtimes.reduce<Record<string, TheaterShowtime[]>>((acc, showtime) => {
                                   if (!acc[showtime.theaterId]) {
                                     acc[showtime.theaterId] = [];
                                   }
                                   acc[showtime.theaterId].push(showtime);
                                   return acc;
-                                }, {})
-                                .map((theaterShowtimes, theaterId) => {
+                                }, {}))
+                                .map(([theaterId, theaterShowtimes]) => {
                                   const theater = theaters.find(t => t.id === theaterId);
                                   if (!theater) return null;
                                   
