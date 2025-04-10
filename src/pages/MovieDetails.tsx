@@ -169,6 +169,12 @@ const MovieDetails = () => {
                         )} 
                       />
                     </Button>
+                    <Link to="/book-now">
+                      <Button variant="outline" className="gap-2">
+                        <Ticket size={16} />
+                        All Shows
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               </div>
