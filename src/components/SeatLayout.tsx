@@ -1,8 +1,7 @@
-
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { toast } from "@/components/ui/sonner";
+import { toast } from "sonner";
 
 interface SeatLayoutProps {
   onSeatsSelected: (seats: string[], totalPrice: number) => void;
@@ -28,10 +27,9 @@ export function SeatLayout({ onSeatsSelected, price }: SeatLayoutProps) {
   const [seats, setSeats] = useState<Seat[]>([]);
   const [selectedSeats, setSelectedSeats] = useState<Seat[]>([]);
   const [totalPrice, setTotalPrice] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(300); // 5 minutes in seconds
+  const [timeLeft, setTimeLeft] = useState(300);
 
   useEffect(() => {
-    // Generate seats
     const generateSeats = () => {
       const newSeats: Seat[] = [];
       const rows = ["A", "B", "C", "D", "E", "F", "G", "H"];
@@ -39,10 +37,8 @@ export function SeatLayout({ onSeatsSelected, price }: SeatLayoutProps) {
       rows.forEach((row, rowIndex) => {
         const seatsInRow = rowIndex < 3 ? 8 : 10;
         for (let i = 1; i <= seatsInRow; i++) {
-          // Random booking status with 20% chance of being booked
           const isBooked = Math.random() < 0.2;
           
-          // Set category based on row
           let category: SeatCategory = "standard";
           if (rowIndex < 2) {
             category = "premium";
@@ -67,7 +63,6 @@ export function SeatLayout({ onSeatsSelected, price }: SeatLayoutProps) {
   }, []);
 
   useEffect(() => {
-    // Update total price when selected seats change
     const newTotal = selectedSeats.reduce((total, seat) => {
       switch(seat.category) {
         case "premium": 
@@ -83,7 +78,6 @@ export function SeatLayout({ onSeatsSelected, price }: SeatLayoutProps) {
   }, [selectedSeats, price]);
 
   useEffect(() => {
-    // Timer countdown
     if (selectedSeats.length > 0 && timeLeft > 0) {
       const timer = setTimeout(() => {
         setTimeLeft(timeLeft - 1);
@@ -98,7 +92,6 @@ export function SeatLayout({ onSeatsSelected, price }: SeatLayoutProps) {
   const handleTimeUp = () => {
     toast.error("Time expired! Your seat selection has been released.");
     
-    // Reset selected seats
     setSeats(seats.map(seat => {
       if (seat.status === "selected") {
         return { ...seat, status: "available" };
@@ -113,7 +106,6 @@ export function SeatLayout({ onSeatsSelected, price }: SeatLayoutProps) {
   const handleSeatClick = (seat: Seat) => {
     if (seat.status === "booked") return;
     
-    // If seat is already selected, unselect it
     if (seat.status === "selected") {
       setSeats(seats.map(s => {
         if (s.id === seat.id) {
@@ -124,7 +116,6 @@ export function SeatLayout({ onSeatsSelected, price }: SeatLayoutProps) {
       
       setSelectedSeats(selectedSeats.filter(s => s.id !== seat.id));
       
-      // Reset timer if all seats are unselected
       if (selectedSeats.length === 1) {
         setTimeLeft(300);
       }
@@ -132,18 +123,15 @@ export function SeatLayout({ onSeatsSelected, price }: SeatLayoutProps) {
       return;
     }
     
-    // If first seat is being selected, start the timer
     if (selectedSeats.length === 0) {
       setTimeLeft(300);
     }
     
-    // Limit to 8 seats
     if (selectedSeats.length >= 8) {
       toast.warning("You can select a maximum of 8 seats at a time.");
       return;
     }
     
-    // Select the seat
     setSeats(seats.map(s => {
       if (s.id === seat.id) {
         return { ...s, status: "selected" };

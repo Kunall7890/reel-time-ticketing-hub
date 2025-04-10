@@ -26,7 +26,8 @@ import {
   Download,
   Calendar,
   Clock,
-  MapPin
+  MapPin,
+  Star
 } from "lucide-react";
 
 import { currentUser } from '@/data/users';
