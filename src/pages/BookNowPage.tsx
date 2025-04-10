@@ -207,7 +207,7 @@ const BookNowPage = () => {
                     <SelectValue placeholder="All Movies" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Movies</SelectItem>
+                    <SelectItem value="all-movies">All Movies</SelectItem>
                     <SelectGroup>
                       {filteredMovies.map((movie) => (
                         <SelectItem key={movie.id} value={movie.id}>{movie.title}</SelectItem>
